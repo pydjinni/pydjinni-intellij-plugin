@@ -33,10 +33,10 @@ jobs:
           path: ./build/distributions/*
       - name: Set channels for pre-release
         if: github.event_name == 'release' && github.event.release.prerelease
-        run: echo "PUBLISH_CHANNELS=default,alpha" >> $GITHUB_ENV
+        run: echo "PUBLISH_CHANNELS=alpha" >> $GITHUB_ENV
       - name: Set channels for release
         if: github.event_name == 'release' && !(github.event.release.prerelease)
-        run: echo "PUBLISH_CHANNELS=default" >> $GITHUB_ENV
+        run: echo "PUBLISH_CHANNELS=default,alpha" >> $GITHUB_ENV
       - name: Publish plugin
         if: github.event_name == 'release'
         run: ./gradlew publishPlugin
