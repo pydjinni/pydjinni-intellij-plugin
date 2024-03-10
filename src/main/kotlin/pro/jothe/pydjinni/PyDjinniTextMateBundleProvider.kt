@@ -24,5 +24,4 @@ class PyDjinniTextMateBundleProvider : TextMateBundleProvider {
             PathManager.getPluginsDir().resolve("PyDjinni-IntelliJ-Plugin").resolve("lib").resolve("bundles").resolve("pydjinni")
         ))
     }
-
 }

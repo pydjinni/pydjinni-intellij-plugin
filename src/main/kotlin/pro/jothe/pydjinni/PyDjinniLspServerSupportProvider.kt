@@ -39,12 +39,10 @@ class PyDjinniLspServerSupportProvider : LspServerSupportProvider {
                                         currentFile: VirtualFile?) =
         LspServerWidgetItem(lspServer, currentFile,
             PyDjinniIcons.LSP, PyDjinniSettingsConfigurable::class.java)
-
 }
 
 private class PyDjinniLspServerDescriptor(project: Project) : ProjectWideLspServerDescriptor(project, "PyDjinni") {
     override fun isSupportedFile(file: VirtualFile) = file.extension == FILE_TYPE_EXTENSION
-
 
     private val configurationState: PyDjinniConfigurationState
         get() = project.getService(PyDjinniConfigurationState::class.java)
@@ -59,7 +57,4 @@ private class PyDjinniLspServerDescriptor(project: Project) : ProjectWideLspServ
         cmd.setWorkDirectory(project.basePath)
         return cmd
     }
-
-
 }
-
