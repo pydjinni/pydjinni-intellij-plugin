@@ -18,7 +18,7 @@ import com.intellij.openapi.fileTypes.LanguageFileType
 import org.jetbrains.plugins.textmate.TextMateBackedFileType
 import javax.swing.Icon
 
-val FILE_TYPE_EXTENSION = "pydjinni"
+val PYDJINNI_FILE_TYPE_EXTENSION = "pydjinni"
 
 class PyDjinniFileType private constructor() : LanguageFileType(PyDjinniLanguage.INSTANCE), TextMateBackedFileType {
     override fun getName(): String {
@@ -30,7 +30,7 @@ class PyDjinniFileType private constructor() : LanguageFileType(PyDjinniLanguage
     }
 
     override fun getDefaultExtension(): String {
-        return FILE_TYPE_EXTENSION
+        return PYDJINNI_FILE_TYPE_EXTENSION
     }
 
     override fun getIcon(): Icon {

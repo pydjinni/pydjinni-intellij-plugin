@@ -30,22 +30,21 @@ class PyDjinniLspServerSupportProvider : LspServerSupportProvider {
         file: VirtualFile,
         serverStarter: LspServerSupportProvider.LspServerStarter
     ) {
-        if(file.extension == FILE_TYPE_EXTENSION) {
+        if(file.extension == PYDJINNI_FILE_TYPE_EXTENSION) {
             serverStarter.ensureServerStarted(PyDjinniLspServerDescriptor(project))
         }
     }
 
-    override fun createLspServerWidgetItem(lspServer: LspServer,
-                                        currentFile: VirtualFile?) =
+    override fun createLspServerWidgetItem(lspServer: LspServer, currentFile: VirtualFile?) =
         LspServerWidgetItem(lspServer, currentFile,
             PyDjinniIcons.LSP, PyDjinniSettingsConfigurable::class.java)
 }
 
 private class PyDjinniLspServerDescriptor(project: Project) : ProjectWideLspServerDescriptor(project, "PyDjinni") {
-    override fun isSupportedFile(file: VirtualFile) = file.extension == FILE_TYPE_EXTENSION
+    override fun isSupportedFile(file: VirtualFile) = file.extension == PYDJINNI_FILE_TYPE_EXTENSION
 
     private val configurationState: PyDjinniConfigurationState
-        get() = project.getService(PyDjinniConfigurationState::class.java)
+        get() = project.getService(PyDjinniConfigurationStateSettings::class.java).state
 
     override fun createCommandLine(): GeneralCommandLine {
         val sdk = PythonSdkUtil.findPythonSdk(project.modules[0])

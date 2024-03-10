@@ -17,7 +17,6 @@ package pro.jothe.pydjinni
 import com.intellij.openapi.util.IconLoader.getIcon
 import javax.swing.Icon
 
-
 object PyDjinniIcons {
     val FILE: Icon = getIcon("/icons/fileIcon.svg", PyDjinniIcons::class.java)
     val LSP: Icon = getIcon("/icons/lspIcon.svg", PyDjinniIcons::class.java)

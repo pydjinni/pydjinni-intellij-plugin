@@ -33,7 +33,8 @@ import javax.swing.JComponent
 
 class EditorNotificationProvider : EditorNotificationProvider {
     private fun createNotification(project: Project, editor: FileEditor, file: VirtualFile): EditorNotificationPanel? {
-        if(file.extension == FILE_TYPE_EXTENSION || file.name == project.getService(PyDjinniConfigurationState::class.java).configurationFile) {
+        if(file.extension == PYDJINNI_FILE_TYPE_EXTENSION ||
+            file.name == project.getService(PyDjinniConfigurationStateSettings::class.java).state.configurationFile) {
             val sdk = PythonSdkUtil.findPythonSdk(project.modules[0])
             if(sdk == null) {
                 val panel = EditorNotificationPanel(editor, EditorNotificationPanel.Status.Warning)
@@ -70,8 +71,6 @@ class EditorNotificationProvider : EditorNotificationProvider {
         }
         return null
     }
-
-
 
     override fun collectNotificationData(
         project: Project,

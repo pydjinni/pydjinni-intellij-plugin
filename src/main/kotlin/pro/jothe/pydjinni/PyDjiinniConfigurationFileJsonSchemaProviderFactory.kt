@@ -42,7 +42,7 @@ class PyDjiinniConfigurationFileJsonSchemaProviderFactory : JsonSchemaProviderFa
                     val virtualFile: VirtualFile = LightVirtualFile("pydjinni_configuration.schema.json", output)
 
                     override fun isAvailable(file: VirtualFile): Boolean {
-                        return file.name == project.getService(PyDjinniConfigurationState::class.java).configurationFile
+                        return file.name == project.getService(PyDjinniConfigurationStateSettings::class.java).state.configurationFile
                     }
 
                     override fun getName(): String {
@@ -56,11 +56,8 @@ class PyDjiinniConfigurationFileJsonSchemaProviderFactory : JsonSchemaProviderFa
                     override fun getSchemaType(): SchemaType {
                         return SchemaType.embeddedSchema
                     }
-
                 })
             }
-
         }
     }
-
 }
