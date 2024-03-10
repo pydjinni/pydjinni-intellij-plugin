@@ -1,0 +1,109 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "PyDjinni",
+  "scopeName": "text.pydjinni",
+  "patterns": [
+    {
+      "include": "#comment"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#import"
+    },
+    {
+      "include": "#string"
+    },
+    {
+      "include": "#typename"
+    },
+    {
+      "include": "#method"
+    },
+    {
+      "include": "#property"
+    },
+    {
+      "include": "#returntype"
+    },
+    {
+      "include": "#constant"
+    }
+  ],
+  "repository": {
+    "comment": {
+      "name": "comment.line.hashtag",
+      "match": "#.*"
+    },
+    "string": {
+      "match": "\".*\"",
+      "name": "string.quoted.double"
+    },
+    "import": {
+      "match": "@import|@extern",
+      "name": "keyword.control.import"
+    },
+    "typename": {
+      "match": "([a-zA-Z][a-zA-Z0-9_]*) *(=) (interface|enum|record|flags)?",
+      "captures": {
+        "1": {
+          "name": "variable"
+        },
+        "2": {
+          "name": "keyword.operator"
+        },
+        "3": {
+          "name": "storage.type"
+        }
+      }
+    },
+    "method": {
+      "match": "([a-zA-Z][a-zA-Z0-9_]*) *\\(",
+      "captures": {
+        "1": {
+          "name": "support.function"
+        }
+      }
+    },
+    "property": {
+      "match": "([a-zA-Z][a-zA-Z0-9_]*) *(:) *([a-zA-Z][a-zA-Z0-9_]*)?",
+      "captures": {
+        "1": {
+          "name": "variable"
+        },
+        "2": {
+          "name": "keyword.operator"
+        },
+        "3": {
+          "name": "support.type"
+        }
+      }
+    },
+    "returntype": {
+      "match": "(->) *([a-zA-Z][a-zA-Z0-9_]*)",
+      "captures": {
+        "1": {
+          "name": "keyword.operator"
+        },
+        "2": {
+          "name": "support.type"
+        }
+      }
+    },
+    "constant": {
+      "match": "([a-zA-Z][a-zA-Z0-9_]*)( *(=) *(all|none))?;",
+      "captures": {
+        "1": {
+          "name": "variable.other.constant"
+        },
+        "3": {
+          "name": "keyword.operator"
+        },
+        "4": {
+          "name": "support.type"
+        }
+      }
+    }
+  }
+}
