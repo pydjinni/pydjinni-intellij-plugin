@@ -15,13 +15,14 @@
 package pro.jothe.pydjinni
 
 import com.intellij.openapi.fileChooser.FileChooserDescriptor
-import com.intellij.openapi.options.BoundConfigurable
+import com.intellij.openapi.options.BoundSearchableConfigurable
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.dsl.builder.*
 
 
-class PyDjinniSettingsConfigurable(private val project: Project) : BoundConfigurable("PyDjinni") {
+class PyDjinniSettingsConfigurable(private val project: Project
+) : BoundSearchableConfigurable("PyDjinni", "PyDjinni") {
 
     override fun createPanel(): DialogPanel {
         return panel {
@@ -32,7 +33,7 @@ class PyDjinniSettingsConfigurable(private val project: Project) : BoundConfigur
                     fileChooserDescriptor = FileChooserDescriptor(true, false, false, false, false, false)
                 )
                 .label("Configuration file:", LabelPosition.TOP)
-                .bindText(configurationState::configurationFile)
+                .bindText(configurationState::configurationFile.toNonNullableProperty(""))
                 .comment("The configuration file is used to configure the language server.<br>A JSON-Schema will be applied to the configured file.")
                 .align(Align.FILL)
             }
@@ -53,5 +54,6 @@ class PyDjinniSettingsConfigurable(private val project: Project) : BoundConfigur
     }
 
     private val configurationState: PyDjinniConfigurationState
-        get() = project.getService(PyDjinniConfigurationState::class.java)
+        get() = project.getService(PyDjinniConfigurationStateSettings::class.java).state
+
 }

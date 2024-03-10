@@ -14,26 +14,15 @@
 
 package pro.jothe.pydjinni
 
-import com.intellij.openapi.components.PersistentStateComponent
-import com.intellij.openapi.components.Service
-import com.intellij.openapi.components.State
-import com.intellij.openapi.components.Storage
-import com.intellij.util.xmlb.XmlSerializerUtil
+import com.intellij.openapi.components.*
 
 @Service(Service.Level.PROJECT)
 @State(
-    name = "pro.jothe.pydjinni.PyDjinniConfigurationState",
+    name = "pro.jothe.pydjinni.PyDjinniConfigurationStateSettings",
     storages = [Storage("pydjinni.xml")]
 )
-class PyDjinniConfigurationState : PersistentStateComponent<PyDjinniConfigurationState> {
-
-    var configurationFile: String = "pydjinni.yaml"
-    var enableLanguagesServerLogs: Boolean = false
-    override fun getState(): PyDjinniConfigurationState {
-        return this
-    }
-
-    override fun loadState(state: PyDjinniConfigurationState) {
-        XmlSerializerUtil.copyBean(state, this)
-    }
+class PyDjinniConfigurationStateSettings : SimplePersistentStateComponent<PyDjinniConfigurationState>(PyDjinniConfigurationState())
+class PyDjinniConfigurationState : BaseState() {
+    var configurationFile by string("pydjinni.yaml")
+    var enableLanguagesServerLogs by property(false)
 }
