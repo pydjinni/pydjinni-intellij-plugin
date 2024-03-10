@@ -14,8 +14,16 @@
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    PyDjinni CLion Plugin<br>
     <em>The plugin utilizes the PyDjinni Language Server in order to provide a richer development experience.</em>
+    <h2>Features</h2>
+    <ul>
+        <li>🌈 Syntax highlighting</li>
+        <li>🔎 Syntax error reporting</li>
+        <li>🎯 Jump to definition</li>
+        <li>⚠️ Deprecation warnings</li>
+        <li>ℹ️ Type documentation on hover</li>
+        <li>⚙️ Configuration file validation</li>
+    </ul>
   ]]></description>
 
     <!-- Product and plugin compatibility requirements.
