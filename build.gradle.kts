@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.com.intellij.openapi.util.io.FileUtil
 import org.jetbrains.intellij.tasks.PrepareSandboxTask
 
 plugins {
@@ -33,13 +32,8 @@ tasks {
     }
 
     withType<PrepareSandboxTask> {
-        val destinationDir = destinationDir.resolve(intellij.pluginName.get()).resolve("lib").resolve("bundles")
-        FileUtil.createDirectory(destinationDir)
-        doLast {
-            copy {
-                from("bundles")
-                into(destinationDir)
-            }
+        from("$rootDir/bundles") {
+            into("${pluginName.get()}/lib/bundles")
         }
     }
 
