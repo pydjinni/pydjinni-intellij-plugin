@@ -4,10 +4,11 @@ plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.9.21"
     id("org.jetbrains.intellij") version "1.17.2"
+    id("pl.allegro.tech.build.axion-release") version "1.17.0"
 }
 
 group = "pro.jothe"
-version = "1.0-SNAPSHOT"
+version = scmVersion.version
 
 repositories {
     mavenCentral()
@@ -50,5 +51,6 @@ tasks {
 
     publishPlugin {
         token.set(System.getenv("PUBLISH_TOKEN"))
+        channels.set((System.getenv("PUBLISH_CHANNELS")?:"").split(','))
     }
 }
