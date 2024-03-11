@@ -52,10 +52,10 @@ class EditorNotificationProvider : EditorNotificationProvider {
                 val result = cmd.toProcessBuilder().redirectOutput(ProcessBuilder.Redirect.PIPE).start().waitFor()
                 if (result != 0) {
                     val panel = EditorNotificationPanel(editor, EditorNotificationPanel.Status.Warning)
-                    panel.text = "PyDjinni Languages Server could not be found"
+                    panel.text = "PyDjinni could not be found"
                     panel.toolTipText = "The PyDjinni Plugin requires the PyDjinni Python package to be installed in the configured Python environment."
                     panel.createActionLabel("Install PyDjinni") {
-                        runBackgroundableTask("Installing Pydjinni", project) {
+                        runBackgroundableTask("Installing PyDjinni", project) {
                             runBlocking {
                                 PythonPackageManager.forSdk(project, sdk).installPackage(
                                     PythonSimplePackageSpecification(
