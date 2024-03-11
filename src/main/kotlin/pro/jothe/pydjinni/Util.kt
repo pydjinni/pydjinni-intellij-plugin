@@ -26,7 +26,6 @@ fun reloadLsp(project: Project) {
     if(!servers.any { it.state == LspServerState.Initializing }) {
         manager.stopAndRestartIfNeeded(PyDjinniLspServerSupportProvider::class.java)
     }
-    JsonSchemaCacheManager.getInstance(project).dispose()
 }
 
 fun reloadConfigurationSchema(project: Project) {
