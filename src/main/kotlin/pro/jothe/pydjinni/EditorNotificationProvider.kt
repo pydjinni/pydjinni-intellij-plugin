@@ -23,7 +23,7 @@ import com.intellij.openapi.project.modules
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.EditorNotificationPanel
 import com.intellij.ui.EditorNotificationProvider
-import com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable
+import com.jetbrains.python.PyBundle
 import com.jetbrains.python.packaging.common.PythonSimplePackageSpecification
 import com.jetbrains.python.packaging.management.PythonPackageManager
 import com.jetbrains.python.sdk.PythonSdkUtil
@@ -43,7 +43,7 @@ class EditorNotificationProvider : EditorNotificationProvider {
                         "Make sure that a Python interpreter is configured and that the PyDjinni Python package is installed."
                 panel.createActionLabel("Configure Python interpreter") {
                     ShowSettingsUtil.getInstance()
-                        .showSettingsDialog(project, PyActiveSdkModuleConfigurable::class.java)
+                        .showSettingsDialog(project, PyBundle.message("configurable.PyActiveSdkModuleConfigurable.python.interpreter.display.name"))
                 }
                 return panel
             } else {
