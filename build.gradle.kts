@@ -1,56 +1,69 @@
-import org.jetbrains.intellij.tasks.PrepareSandboxTask
+import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "1.9.21"
-    id("org.jetbrains.intellij") version "1.17.2"
-    id("pl.allegro.tech.build.axion-release") version "1.17.0"
+    id("org.jetbrains.kotlin.jvm") version "2.0.21"
+    id("org.jetbrains.intellij.platform") version "2.1.0"
+    id("pl.allegro.tech.build.axion-release") version "1.18.16"
 }
 
 group = "pro.jothe"
 version = scmVersion.version
 
+kotlin {
+    jvmToolchain(17)
+}
+
 repositories {
     mavenCentral()
+
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
 
-// Configure Gradle IntelliJ Plugin
-// Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
-intellij {
-    version.set("241-EAP-SNAPSHOT")
-    type.set("CL") // Target IDE Platform
-    plugins.set(listOf("python-ce", "org.jetbrains.plugins.textmate"))
+dependencies {
+    intellijPlatform {
+        clion("2024.1")
+        bundledPlugins(listOf("PythonCore", "org.jetbrains.plugins.textmate"))
+        instrumentationTools()
+        pluginVerifier()
+        zipSigner()
+        testFramework(TestFrameworkType.Platform)
+    }
 }
 
-tasks {
-    // Set the JVM compatibility versions
-    withType<JavaCompile> {
-        sourceCompatibility = "17"
-        targetCompatibility = "17"
-    }
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions.jvmTarget = "17"
-    }
-
-    withType<PrepareSandboxTask> {
-        from("$rootDir/bundles") {
-            into("${pluginName.get()}/lib/bundles")
+intellijPlatform {
+    version = scmVersion.version
+    pluginConfiguration {
+        ideaVersion {
+            sinceBuild = "241"
+            untilBuild = provider { null }
         }
     }
 
-    patchPluginXml {
-        sinceBuild.set("241")
-        untilBuild.set("242.*")
+    signing {
+        certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
+        privateKey = providers.environmentVariable("PRIVATE_KEY")
+        password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
     }
 
-    signPlugin {
-        certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
-        privateKey.set(System.getenv("PRIVATE_KEY"))
-        password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
+    publishing {
+        token = providers.environmentVariable("PUBLISH_TOKEN")
+        channels = providers.environmentVariable("PUBLISH_CHANNELS").map { it.split(',') }
     }
 
-    publishPlugin {
-        token.set(System.getenv("PUBLISH_TOKEN"))
-        channels.set((System.getenv("PUBLISH_CHANNELS")?:"").split(','))
+    pluginVerification {
+        ides {
+            recommended()
+        }
+    }
+}
+
+tasks {
+    prepareSandbox {
+        from(layout.projectDirectory.dir("bundles")) {
+            into(pluginName.map { "$it/lib/bundles" })
+        }
     }
 }
