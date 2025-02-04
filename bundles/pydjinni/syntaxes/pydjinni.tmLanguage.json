@@ -2,12 +2,11 @@
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
   "name": "PyDjinni",
   "scopeName": "text.pydjinni",
+  "foldingStartMarker": "\\{\\s*$",
+  "foldingStopMarker": "^\\s*\\}",
   "patterns": [
     {
       "include": "#comment"
-    },
-    {
-      "include": "#keywords"
     },
     {
       "include": "#import"
@@ -16,94 +15,287 @@
       "include": "#string"
     },
     {
+      "include": "#enum_modifiers"
+    },
+    {
+      "include": "#types"
+    },
+    {
+      "include": "#modifiers"
+    },
+    {
+      "include": "#deriving_targets"
+    },
+    {
+      "include": "#parameter"
+    },
+    {
       "include": "#typename"
     },
     {
-      "include": "#method"
+      "include": "#typename_reference_parameter"
     },
     {
-      "include": "#property"
+      "include": "#typename_reference_return"
     },
     {
-      "include": "#returntype"
+      "include": "#typename_reference_namespace"
     },
     {
-      "include": "#constant"
+      "include": "#typename_reference_throws_1"
+    },
+    {
+      "include": "#typename_reference_throws_2"
+    },
+    {
+      "include": "#typename_reference_throws_3"
+    },
+    {
+      "include": "#typename_reference_throws_4"
+    },
+    {
+      "include": "#typename_reference_throws_5"
+    },
+    {
+      "include": "#typename_reference_throws_6"
+    },
+    {
+      "include": "#namespace_typename"
+    },
+    {
+      "include": "#interface_targets"
+    },
+    {
+      "include": "#punctuation_terminator"
+    },
+    {
+      "include": "#punctuation_block"
+    },
+    {
+      "include": "#punctuation_comma"
+    },
+    {
+      "include": "#punctuation_accessor"
+    },
+    {
+      "include": "#operator_assignment"
+    },
+    {
+      "include": "#operator_type_annotation"
+    },
+    {
+      "include": "#parentheses"
     }
   ],
   "repository": {
     "comment": {
       "name": "comment.line.hashtag",
-      "match": "#.*"
-    },
-    "string": {
-      "match": "\".*\"",
-      "name": "string.quoted.double"
+      "begin": "#",
+      "end": "$",
+      "patterns": [
+        {
+          "name": "storage.type.class",
+          "match": "@returns|@deprecated"
+        },
+        {
+          "match": "(@param|@throws)\\s*(\\w+)?",
+          "captures": {
+            "1": {
+              "name": "storage.type.class"
+            },
+            "2": {
+              "name": "variable.other"
+            }
+          }
+        },
+        {
+          "name": "markup.inline.raw.string",
+          "match": "`.*`"
+        },
+        {
+          "name": "markup.bold",
+          "match": "\\*\\*[^*]+\\*\\*"
+        },
+        {
+          "name": "markup.italic",
+          "match": "\\*[^*]+\\*"
+        }
+      ]
     },
     "import": {
       "match": "@import|@extern",
       "name": "keyword.control.import"
     },
+    "string": {
+      "match": "\".*\"",
+      "name": "string.quoted.double"
+    },
+    "enum_modifiers": {
+      "match": "(?<=\\=)\\s*(all|none)",
+      "captures": {
+        "1": {
+          "name": "entity.name.tag"
+        }
+      }
+    },
+    "types": {
+      "name": "storage.type",
+      "match": "\\b(interface|enum|record|flags|error|function|namespace)\\b"
+    },
+    "modifiers": {
+      "name": "storage.modifier",
+      "match": "\\b(const|static|async|throws|main)\\b"
+    },
+    "deriving_targets": {
+      "begin": "\\b(deriving)\\s*(\\()",
+      "beginCaptures": {
+        "1": {
+          "name": "storage.modifier"
+        },
+        "2": {
+          "name": "punctuation.definition.parameters"
+        }
+      },
+      "end": "(\\))",
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.definition.parameters"
+        }
+      },
+      "patterns": [
+        {
+          "name": "entity.name.tag",
+          "match": "\\w+"
+        }
+      ]
+    },
+    "parameter": {
+      "match": "([_\\w]+)\\s*(?=:|\\(|=\\s*all|=\\s*none|;)",
+      "captures": {
+        "1": {
+          "name": "variable.other.property"
+        }
+      }
+    },
     "typename": {
-      "match": "([a-zA-Z][a-zA-Z0-9_]*) *(=) (interface|enum|record|flags)?",
+      "match": "([_\\w]+)\\s*(?=\\=)",
       "captures": {
         "1": {
-          "name": "variable"
-        },
-        "2": {
-          "name": "keyword.operator"
-        },
-        "3": {
-          "name": "storage.type"
+          "name": "entity.name.type"
         }
       }
     },
-    "method": {
-      "match": "([a-zA-Z][a-zA-Z0-9_]*) *\\(",
+    "typename_reference_parameter": {
+      "match": "(?<=:)\\s*([<>_\\w]+)",
       "captures": {
         "1": {
-          "name": "support.function"
+          "name": "entity.name.type.interface"
         }
       }
     },
-    "property": {
-      "match": "([a-zA-Z][a-zA-Z0-9_]*) *(:) *([a-zA-Z][a-zA-Z0-9_]*)?",
+    "typename_reference_return": {
+      "match": "(?<=->)\\s*([<>_\\w]+)",
       "captures": {
         "1": {
-          "name": "variable"
-        },
-        "2": {
-          "name": "keyword.operator"
-        },
-        "3": {
-          "name": "support.type"
+          "name": "entity.name.type.interface"
         }
       }
     },
-    "returntype": {
-      "match": "(->) *([a-zA-Z][a-zA-Z0-9_]*)",
+    "typename_reference_namespace": {
+      "match": "(?<=\\.)([<>_\\w]+)",
       "captures": {
         "1": {
-          "name": "keyword.operator"
-        },
-        "2": {
-          "name": "support.type"
+          "name": "entity.name.type.interface"
         }
       }
     },
-    "constant": {
-      "match": "([a-zA-Z][a-zA-Z0-9_]*)( *(=) *(all|none))?;",
+    "typename_reference_throws_1": {
+      "match": "(?<=throws)\\s*([<>_\\w]+)\\s*(?=,)",
       "captures": {
         "1": {
-          "name": "variable.other.constant"
-        },
-        "3": {
-          "name": "keyword.operator"
-        },
-        "4": {
-          "name": "support.type"
+          "name": "entity.name.type.interface"
         }
       }
+    },
+    "typename_reference_throws_2": {
+      "match": "(?<=throws)\\s*([<>_\\w]+)\\s*(?=->)",
+      "captures": {
+        "1": {
+          "name": "entity.name.type.interface"
+        }
+      }
+    },
+    "typename_reference_throws_3": {
+      "match": "(?<=throws)\\s*([<>_\\w]+)\\s*(?=;)",
+      "captures": {
+        "1": {
+          "name": "entity.name.type.interface"
+        }
+      }
+    },
+    "typename_reference_throws_4": {
+      "match": "(?<=,)\\s*([<>_\\w]+)\\s*(?=,)",
+      "captures": {
+        "1": {
+          "name": "entity.name.type.interface"
+        }
+      }
+    },
+    "typename_reference_throws_5": {
+      "match": "(?<=,)\\s*([<>_\\w]+)\\s*(?=->)",
+      "captures": {
+        "1": {
+          "name": "entity.name.type.interface"
+        }
+      }
+    },
+    "typename_reference_throws_6": {
+      "match": "(?<=,)\\s*([<>_\\w]+)\\s*(?=;)",
+      "captures": {
+        "1": {
+          "name": "entity.name.type.interface"
+        }
+      }
+    },
+    "namespace_typename": {
+      "match": "(?<=namespace)\\s*([_\\w]+)",
+      "captures": {
+        "1": {
+          "name": "entity.name.type.module"
+        }
+      }
+    },
+    "interface_targets": {
+      "name": "entity.name.tag",
+      "match": "\\+[\\w]+"
+    },
+    "punctuation_terminator": {
+      "name": "punctuation.terminator",
+      "match": ";"
+    },
+    "punctuation_block": {
+      "name": "punctuation.definition.block",
+      "match": "{|}"
+    },
+    "punctuation_comma": {
+      "name": "punctuation.separator.comma",
+      "match": ","
+    },
+    "punctuation_accessor": {
+      "name": "punctuation.accessor",
+      "match": "\\."
+    },
+    "operator_assignment": {
+      "name": "keyword.operator.assignment",
+      "match": "="
+    },
+    "operator_type_annotation": {
+      "name": "keyword.operator.type.annotation",
+      "match": "(->|:)"
+    },
+    "parentheses": {
+      "name": "punctuation.definition.parameters",
+      "match": "\\(|\\)"
     }
   }
 }

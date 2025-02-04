@@ -16,7 +16,7 @@
   "homepage": "https://github.com/pydjinni/pydjinni-vscode-extension#readme",
   "engines": {
     "node": ">=20.0.0",
-    "vscode": "^1.85.0"
+    "vscode": "^1.95.0"
   },
   "icon": "images/icon.png",
   "extensionDependencies": [
@@ -29,14 +29,14 @@
     "workspaceContains:pydjinni.json"
   ],
   "devDependencies": {
-    "@types/node": "^20.11.5",
-    "@types/semver": "^7.5.6",
-    "@types/vscode": "^1.85.0",
-    "@typescript-eslint/eslint-plugin": "^6.19.0",
-    "@typescript-eslint/parser": "^6.19.0",
-    "eslint": "^8.56.0",
-    "typescript": "^5.3.3",
-    "@vscode/vsce": "^2.22.0",
+    "@types/node": "^20.14.8",
+    "@types/semver": "^7.5.8",
+    "@types/vscode": "^1.95.0",
+    "@typescript-eslint/eslint-plugin": "^8.16.0",
+    "@typescript-eslint/parser": "^8.16.0",
+    "eslint": "^9.16.0",
+    "typescript": "^5.7.2",
+    "@vscode/vsce": "^3.2.1",
     "js-yaml": "^4.1.0"
   },
   "dependencies": {
@@ -46,19 +46,19 @@
   "contributes": {
     "languages": [
       {
-          "id": "pydjinni",
-          "aliases": [
-              "PyDjinni"
-          ],
-          "extensions": [
-              ".pydjinni",
-              ".djinni"
-          ],
-          "configuration": "./language-configuration.json",
-          "icon": {
-            "light": "./icons/pydjinni_fileicon_light.png",
-            "dark": "./icons/pydjinni_fileicon_dark.png"
-          }
+        "id": "pydjinni",
+        "aliases": [
+          "PyDjinni"
+        ],
+        "extensions": [
+          ".pydjinni",
+          ".djinni"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./icons/pydjinni_fileicon_light.png",
+          "dark": "./icons/pydjinni_fileicon_dark.png"
+        }
       }
     ],
     "grammars": [
@@ -81,8 +81,12 @@
         "pydjinni.config": {
           "type": "string",
           "default": "pydjinni.yaml",
-          "description": "Path to the PyDjinni configuration file",
-          "title": "Configuration"
+          "description": "Path to the PyDjinni configuration file"
+        },
+        "pydjinni.debugLogs": {
+          "type": "boolean",
+          "default": false,
+          "description": "If enabled, the language server logs will be written to 'pydjinni-language-server.log'"
         }
       }
     },
