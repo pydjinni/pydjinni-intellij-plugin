@@ -60,7 +60,8 @@ class EditorNotificationProvider : EditorNotificationProvider {
                                 PythonPackageManager.forSdk(project, sdk).installPackage(
                                     PythonSimplePackageSpecification(
                                         name = "pydjinni", version = null, repository = null
-                                    )
+                                    ),
+                                    options = emptyList(),
                                 )
                             }
                         }

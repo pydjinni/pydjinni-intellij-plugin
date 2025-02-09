@@ -24,9 +24,8 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        clion("2024.1")
+        clion("2024.3.1")
         bundledPlugins(listOf("PythonCore", "org.jetbrains.plugins.textmate"))
-        instrumentationTools()
         pluginVerifier()
         zipSigner()
         testFramework(TestFrameworkType.Platform)
@@ -37,7 +36,7 @@ intellijPlatform {
     version = scmVersion.version
     pluginConfiguration {
         ideaVersion {
-            sinceBuild = "241"
+            sinceBuild = "243"
             untilBuild = provider { null }
         }
     }

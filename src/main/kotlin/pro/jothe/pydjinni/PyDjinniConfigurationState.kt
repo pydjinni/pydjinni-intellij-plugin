@@ -25,4 +25,6 @@ class PyDjinniConfigurationStateSettings : SimplePersistentStateComponent<PyDjin
 class PyDjinniConfigurationState : BaseState() {
     var configurationFile by string("pydjinni.yaml")
     var enableLanguagesServerLogs by property(false)
+    var generateOnSave: Boolean by property(false)
+    var generateBasePath by string("")
 }

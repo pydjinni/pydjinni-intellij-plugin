@@ -14,7 +14,6 @@
 
 package pro.jothe.pydjinni
 
-import com.intellij.openapi.fileChooser.FileChooserDescriptor
 import com.intellij.openapi.options.BoundSearchableConfigurable
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogPanel
@@ -29,13 +28,26 @@ class PyDjinniSettingsConfigurable(private val project: Project
             row {
                 textFieldWithBrowseButton(
                     browseDialogTitle = "Configuration File",
-                    project = project,
-                    fileChooserDescriptor = FileChooserDescriptor(true, false, false, false, false, false)
+                    project = project
                 )
                 .label("Configuration file:", LabelPosition.TOP)
                 .bindText(configurationState::configurationFile.toNonNullableProperty(""))
                 .comment("The configuration file is used to configure the language server.<br>A JSON-Schema will be applied to the configured file.")
                 .align(Align.FILL)
+            }
+            row {
+                checkBox("Generate on save").bindSelected(configurationState::generateOnSave)
+                    .comment("If enabled, the PyDjinni generator will run on file save.<br><i>This will do a clean regeneration, which might lead to unexcepted behavior if multiple pydjinni files are chained with <code>@import</code></i>!")
+            }
+            row {
+                textFieldWithBrowseButton(
+                    browseDialogTitle = "Generate base path",
+                    project = project
+                )
+                    .label("Generate base path:", LabelPosition.TOP)
+                    .bindText(configurationState::generateBasePath.toNonNullableProperty(""))
+                    .comment("Base path for the generated files.<br>If empty, the files will be generated relative to the project root.")
+                    .align(Align.FILL)
             }
             group("Debugging") {
                 row {

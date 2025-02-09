@@ -52,6 +52,12 @@ private class PyDjinniLspServerDescriptor(project: Project) : ProjectWideLspServ
         if (configurationState.enableLanguagesServerLogs) {
             params.addAll(arrayListOf("--log", "pydjinni_lsp.log"))
         }
+        if (configurationState.generateOnSave) {
+            params.add("--generate-on-save")
+        }
+        if (configurationState.generateBasePath != "") {
+            params.addAll(arrayListOf("--generate-base-path", configurationState.generateBasePath))
+        }
         val cmd = GeneralCommandLine(sdk?.homePath, "-m", "pydjinni_language_server", "start", *(params.toTypedArray()))
         cmd.setWorkDirectory(project.basePath)
         return cmd
