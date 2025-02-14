@@ -1,48 +1,6 @@
 {
   "name": "pydjinni-vscode",
   "displayName": "PyDjinni",
-  "publisher": "PyDjinni",
-  "version": "0.0.0",
-  "description": "Visual Studio Code PyDjinni Extension",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/pydjinni/pydjinni-vscode-extension.git"
-  },
-  "author": "jothepro",
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/pydjinni/pydjinni-vscode-extension/issues"
-  },
-  "homepage": "https://github.com/pydjinni/pydjinni-vscode-extension#readme",
-  "engines": {
-    "node": ">=20.0.0",
-    "vscode": "^1.95.0"
-  },
-  "icon": "images/icon.png",
-  "extensionDependencies": [
-    "ms-python.python",
-    "redhat.vscode-yaml"
-  ],
-  "activationEvents": [
-    "onFileSystem:pydjinni",
-    "workspaceContains:pydjinni.yaml",
-    "workspaceContains:pydjinni.json"
-  ],
-  "devDependencies": {
-    "@types/node": "^20.14.8",
-    "@types/semver": "^7.5.8",
-    "@types/vscode": "^1.95.0",
-    "@typescript-eslint/eslint-plugin": "^8.16.0",
-    "@typescript-eslint/parser": "^8.16.0",
-    "eslint": "^9.16.0",
-    "typescript": "^5.7.2",
-    "@vscode/vsce": "^3.2.1",
-    "js-yaml": "^4.1.0"
-  },
-  "dependencies": {
-    "@vscode/python-extension": "^1.0.5",
-    "vscode-languageclient": "^9.0.1"
-  },
   "contributes": {
     "languages": [
       {
@@ -51,14 +9,9 @@
           "PyDjinni"
         ],
         "extensions": [
-          ".pydjinni",
-          ".djinni"
+          ".pydjinni"
         ],
-        "configuration": "./language-configuration.json",
-        "icon": {
-          "light": "./icons/pydjinni_fileicon_light.png",
-          "dark": "./icons/pydjinni_fileicon_dark.png"
-        }
+        "configuration": "./language-configuration.json"
       }
     ],
     "grammars": [
@@ -67,46 +20,6 @@
         "scopeName": "text.pydjinni",
         "path": "./syntaxes/pydjinni.tmLanguage.json"
       }
-    ],
-    "commands": [
-      {
-        "command": "pydjinni.server.restart",
-        "title": "Restart Language Server",
-        "category": "pydjinni"
-      }
-    ],
-    "configuration": {
-      "title": "PyDjinni",
-      "properties": {
-        "pydjinni.config": {
-          "type": "string",
-          "default": "pydjinni.yaml",
-          "description": "Path to the PyDjinni configuration file"
-        },
-        "pydjinni.debugLogs": {
-          "type": "boolean",
-          "default": false,
-          "description": "If enabled, the language server logs will be written to 'pydjinni-language-server.log'"
-        }
-      }
-    },
-    "jsonValidation": [
-      {
-        "fileMatch": "pydjinni.json",
-        "url": "pydjinni:///configuration.schema.json"
-      }
-    ],
-    "yamlValidation": [
-      {
-        "fileMatch": "pydjinni.{yaml,yml}",
-        "url": "pydjinni:///configuration.schema.json"
-      }
     ]
-  },
-  "main": "./out/extension.js",
-  "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "precompile": "npx js-yaml syntaxes/pydjinni.tmLanguage.yaml > syntaxes/pydjinni.tmLanguage.json",
-    "compile": "tsc -p ."
   }
 }
