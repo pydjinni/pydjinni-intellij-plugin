@@ -23,24 +23,35 @@ import com.intellij.platform.lsp.api.LspServerSupportProvider
 import com.intellij.platform.lsp.api.ProjectWideLspServerDescriptor
 import com.intellij.platform.lsp.api.lsWidget.LspServerWidgetItem
 import com.jetbrains.python.sdk.PythonSdkUtil
+import org.eclipse.lsp4j.ClientCapabilities
+import org.eclipse.lsp4j.ConfigurationItem
+import pro.jothe.pydjinni.PyDjinniConfigurationState.Companion.DEFAULT_CONFIGURATION_FILE
 
 class PyDjinniLspServerSupportProvider : LspServerSupportProvider {
     override fun fileOpened(
         project: Project,
         file: VirtualFile,
-        serverStarter: LspServerSupportProvider.LspServerStarter
+        serverStarter: LspServerSupportProvider.LspServerStarter,
     ) {
-        if(file.extension == PYDJINNI_FILE_TYPE_EXTENSION) {
+        if (file.extension == PYDJINNI_FILE_TYPE_EXTENSION) {
             serverStarter.ensureServerStarted(PyDjinniLspServerDescriptor(project))
         }
     }
 
-    override fun createLspServerWidgetItem(lspServer: LspServer, currentFile: VirtualFile?) =
-        LspServerWidgetItem(lspServer, currentFile,
-            PyDjinniIcons.LSP, PyDjinniSettingsConfigurable::class.java)
+    override fun createLspServerWidgetItem(
+        lspServer: LspServer,
+        currentFile: VirtualFile?,
+    ) = LspServerWidgetItem(
+        lspServer,
+        currentFile,
+        PyDjinniIcons.LSP,
+        PyDjinniSettingsConfigurable::class.java,
+    )
 }
 
-private class PyDjinniLspServerDescriptor(project: Project) : ProjectWideLspServerDescriptor(project, "PyDjinni") {
+private class PyDjinniLspServerDescriptor(
+    project: Project,
+) : ProjectWideLspServerDescriptor(project, "PyDjinni") {
     override fun isSupportedFile(file: VirtualFile) = file.extension == PYDJINNI_FILE_TYPE_EXTENSION
 
     private val configurationState: PyDjinniConfigurationState
@@ -48,18 +59,27 @@ private class PyDjinniLspServerDescriptor(project: Project) : ProjectWideLspServ
 
     override fun createCommandLine(): GeneralCommandLine {
         val sdk = PythonSdkUtil.findPythonSdk(project.modules[0])
-        val params = arrayListOf("--connection", "STDIO", "--config", configurationState.configurationFile)
+        val params = arrayListOf("--connection", "STDIO")
         if (configurationState.enableLanguagesServerLogs) {
-            params.addAll(arrayListOf("--log", "pydjinni_lsp.log"))
-        }
-        if (configurationState.generateOnSave) {
-            params.add("--generate-on-save")
-        }
-        if (configurationState.generateBasePath != "") {
-            params.addAll(arrayListOf("--generate-base-path", configurationState.generateBasePath))
+            params.addAll(arrayListOf("--log", "pydjinni-language-server.log"))
         }
         val cmd = GeneralCommandLine(sdk?.homePath, "-m", "pydjinni_language_server", "start", *(params.toTypedArray()))
         cmd.setWorkDirectory(project.basePath)
         return cmd
     }
+
+    override val clientCapabilities: ClientCapabilities
+        get() =
+            super.clientCapabilities.apply {
+                workspace =
+                    workspace.apply {
+                        configuration = true
+                    }
+            }
+
+    override fun getWorkspaceConfiguration(item: ConfigurationItem): ConfigurationModel? =
+        ConfigurationModel(
+            config = configurationState.configurationFile ?: DEFAULT_CONFIGURATION_FILE,
+            generateOnSave = configurationState.generateOnSave,
+        ).takeIf { item.section == "pydjinni" }
 }

@@ -16,19 +16,28 @@ package pro.jothe.pydjinni
 
 import com.intellij.openapi.project.Project
 import com.intellij.platform.lsp.api.LspServerManager
-import com.intellij.platform.lsp.api.LspServerState
+import com.intellij.ui.EditorNotifications
 import com.jetbrains.jsonSchema.ide.JsonSchemaService
-import com.jetbrains.jsonSchema.impl.JsonSchemaCacheManager
+import org.eclipse.lsp4j.DidChangeConfigurationParams
 
-fun reloadLsp(project: Project) {
-    val manager = LspServerManager.getInstance(project)
-    val servers = manager.getServersForProvider(PyDjinniLspServerSupportProvider::class.java)
-    if(!servers.any { it.state == LspServerState.Initializing }) {
-        manager.stopAndRestartIfNeeded(PyDjinniLspServerSupportProvider::class.java)
+fun Project.notifyConfigurationChange() {
+    LspServerManager.getInstance(this).getServersForProvider(PyDjinniLspServerSupportProvider::class.java).forEach { server ->
+        server.sendNotification { it.workspaceService.didChangeConfiguration(DidChangeConfigurationParams(emptyArray<Any>())) }
     }
 }
 
-fun reloadConfigurationSchema(project: Project) {
-    val schemaService = project.getService(JsonSchemaService::class.java)
-    schemaService.reset()
+fun Project.restartServer() {
+    LspServerManager.getInstance(this).apply {
+        stopAndRestartIfNeeded(PyDjinniLspServerSupportProvider::class.java)
+    }
+}
+
+fun Project.reloadConfigurationSchema() {
+    getService(JsonSchemaService::class.java).apply {
+        reset()
+    }
+}
+
+fun Project.updateAllNotifications() {
+    EditorNotifications.getInstance(this).updateAllNotifications()
 }

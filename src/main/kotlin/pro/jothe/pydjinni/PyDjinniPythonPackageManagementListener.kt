@@ -16,13 +16,14 @@ package pro.jothe.pydjinni
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.projectRoots.Sdk
-import com.intellij.ui.EditorNotifications
 import com.jetbrains.python.packaging.common.PythonPackageManagementListener
 
-class PyDjinniPythonPackageManagementListener(private val project: Project) : PythonPackageManagementListener {
+class PyDjinniPythonPackageManagementListener(
+    private val project: Project,
+) : PythonPackageManagementListener {
     override fun packagesChanged(sdk: Sdk) {
-        reloadLsp(project)
-        reloadConfigurationSchema(project)
-        EditorNotifications.getInstance(project).updateAllNotifications()
+        project.restartServer()
+        project.reloadConfigurationSchema()
+        project.updateAllNotifications()
     }
 }

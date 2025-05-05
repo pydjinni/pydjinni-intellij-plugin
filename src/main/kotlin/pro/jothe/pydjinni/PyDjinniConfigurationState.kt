@@ -19,12 +19,16 @@ import com.intellij.openapi.components.*
 @Service(Service.Level.PROJECT)
 @State(
     name = "pro.jothe.pydjinni.PyDjinniConfigurationStateSettings",
-    storages = [Storage("pydjinni.xml")]
+    storages = [Storage("pydjinni.xml")],
 )
 class PyDjinniConfigurationStateSettings : SimplePersistentStateComponent<PyDjinniConfigurationState>(PyDjinniConfigurationState())
+
 class PyDjinniConfigurationState : BaseState() {
-    var configurationFile by string("pydjinni.yaml")
+    companion object {
+        const val DEFAULT_CONFIGURATION_FILE: String = "pydjinni.yaml"
+    }
+
+    var configurationFile by string(DEFAULT_CONFIGURATION_FILE)
     var enableLanguagesServerLogs by property(false)
     var generateOnSave: Boolean by property(false)
-    var generateBasePath by string("")
 }
