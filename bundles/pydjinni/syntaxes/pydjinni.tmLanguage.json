@@ -27,9 +27,6 @@
       "include": "#deriving_targets"
     },
     {
-      "include": "#parameter"
-    },
-    {
       "include": "#typename"
     },
     {
@@ -61,6 +58,9 @@
     },
     {
       "include": "#namespace_typename"
+    },
+    {
+      "include": "#parameter"
     },
     {
       "include": "#interface_targets"
@@ -98,7 +98,18 @@
           "match": "@returns|@deprecated"
         },
         {
-          "match": "(@param|@throws)\\s*(\\w+)?",
+          "match": "(@param)\\s*(\\w+)?",
+          "captures": {
+            "1": {
+              "name": "storage.type.class"
+            },
+            "2": {
+              "name": "variable.other"
+            }
+          }
+        },
+        {
+          "match": "(@throws)\\s*([\\w.]+)?",
           "captures": {
             "1": {
               "name": "storage.type.class"
@@ -169,16 +180,8 @@
         }
       ]
     },
-    "parameter": {
-      "match": "([_\\w]+)\\s*(?=:|\\(|=\\s*all|=\\s*none|;)",
-      "captures": {
-        "1": {
-          "name": "variable.other.property"
-        }
-      }
-    },
     "typename": {
-      "match": "([_\\w]+)\\s*(?=\\=)",
+      "match": "([\\w]+)\\s*(?=\\=)",
       "captures": {
         "1": {
           "name": "entity.name.type"
@@ -186,7 +189,7 @@
       }
     },
     "typename_reference_parameter": {
-      "match": "(?<=:)\\s*([<>_\\w]+)",
+      "match": "(?<=:)\\s*([<>\\w]+)",
       "captures": {
         "1": {
           "name": "entity.name.type.interface"
@@ -194,7 +197,7 @@
       }
     },
     "typename_reference_return": {
-      "match": "(?<=->)\\s*([<>_\\w]+)",
+      "match": "(?<=->)\\s*([<>\\w]+)",
       "captures": {
         "1": {
           "name": "entity.name.type.interface"
@@ -202,7 +205,7 @@
       }
     },
     "typename_reference_namespace": {
-      "match": "(?<=\\.)([<>_\\w]+)",
+      "match": "(?<=\\.)([<>\\w]+)",
       "captures": {
         "1": {
           "name": "entity.name.type.interface"
@@ -210,7 +213,7 @@
       }
     },
     "typename_reference_throws_1": {
-      "match": "(?<=throws)\\s*([<>_\\w]+)\\s*(?=,)",
+      "match": "(?<=throws)\\s*([<>\\w]+)\\s*(?=,|.)",
       "captures": {
         "1": {
           "name": "entity.name.type.interface"
@@ -218,7 +221,7 @@
       }
     },
     "typename_reference_throws_2": {
-      "match": "(?<=throws)\\s*([<>_\\w]+)\\s*(?=->)",
+      "match": "(?<=throws)\\s*([<>\\w]+)\\s*(?=->)",
       "captures": {
         "1": {
           "name": "entity.name.type.interface"
@@ -226,7 +229,7 @@
       }
     },
     "typename_reference_throws_3": {
-      "match": "(?<=throws)\\s*([<>_\\w]+)\\s*(?=;)",
+      "match": "(?<=throws)\\s*([<>\\w]+)\\s*(?=;)",
       "captures": {
         "1": {
           "name": "entity.name.type.interface"
@@ -234,7 +237,7 @@
       }
     },
     "typename_reference_throws_4": {
-      "match": "(?<=,)\\s*([<>_\\w]+)\\s*(?=,)",
+      "match": "(?<=,)\\s*([<>\\w]+)\\s*(?=,|.)",
       "captures": {
         "1": {
           "name": "entity.name.type.interface"
@@ -242,7 +245,7 @@
       }
     },
     "typename_reference_throws_5": {
-      "match": "(?<=,)\\s*([<>_\\w]+)\\s*(?=->)",
+      "match": "(?<=,)\\s*([<>\\w]+)\\s*(?=->)",
       "captures": {
         "1": {
           "name": "entity.name.type.interface"
@@ -250,7 +253,7 @@
       }
     },
     "typename_reference_throws_6": {
-      "match": "(?<=,)\\s*([<>_\\w]+)\\s*(?=;)",
+      "match": "(?<=,)\\s*([<>\\w]+)\\s*(?=;)",
       "captures": {
         "1": {
           "name": "entity.name.type.interface"
@@ -258,10 +261,18 @@
       }
     },
     "namespace_typename": {
-      "match": "(?<=namespace)\\s*([_\\w]+)",
+      "match": "(?<=namespace)\\s*([\\w]+)",
       "captures": {
         "1": {
           "name": "entity.name.type.module"
+        }
+      }
+    },
+    "parameter": {
+      "match": "([\\w]+)\\s*(?=:|\\(|=\\s*all|=\\s*none|;)",
+      "captures": {
+        "1": {
+          "name": "variable.other.property"
         }
       }
     },
