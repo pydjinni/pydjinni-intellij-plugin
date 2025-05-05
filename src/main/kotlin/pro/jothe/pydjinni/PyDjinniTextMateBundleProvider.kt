@@ -18,10 +18,16 @@ import com.intellij.openapi.application.PathManager
 import org.jetbrains.plugins.textmate.api.TextMateBundleProvider
 
 class PyDjinniTextMateBundleProvider : TextMateBundleProvider {
-    override fun getBundles(): List<TextMateBundleProvider.PluginBundle> {
-        return listOf(TextMateBundleProvider.PluginBundle(
-            "pydjinni",
-            PathManager.getPluginsDir().resolve("PyDjinni-IntelliJ-Plugin").resolve("lib").resolve("bundles").resolve("pydjinni")
-        ))
-    }
+    override fun getBundles(): List<TextMateBundleProvider.PluginBundle> =
+        listOf(
+            TextMateBundleProvider.PluginBundle(
+                "pydjinni",
+                PathManager
+                    .getPluginsDir()
+                    .resolve("PyDjinni-IntelliJ-Plugin")
+                    .resolve("lib")
+                    .resolve("bundles")
+                    .resolve("pydjinni"),
+            ),
+        )
 }
