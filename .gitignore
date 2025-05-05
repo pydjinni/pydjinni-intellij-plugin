@@ -5,9 +5,12 @@ build/
 !**/src/test/**/build/
 
 ### IntelliJ IDEA ###
+.intellijPlatform
 .idea/*
 !.idea/icon.svg
 !.idea/.name
+!.idea/externalDependencies.xml
+!.idea/ktlint-plugin.xml
 *.iws
 *.iml
 *.ipr
