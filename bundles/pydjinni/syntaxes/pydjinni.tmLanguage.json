@@ -278,7 +278,7 @@
     },
     "interface_targets": {
       "name": "entity.name.tag",
-      "match": "\\+[\\w]+"
+      "match": "([+-][\\w]+)"
     },
     "punctuation_terminator": {
       "name": "punctuation.terminator",
