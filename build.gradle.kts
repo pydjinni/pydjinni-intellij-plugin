@@ -1,6 +1,6 @@
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
-import org.jetbrains.intellij.platform.gradle.models.ProductRelease
+import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask
 
 plugins {
     id("java")
@@ -26,7 +26,7 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        clion("2025.1")
+        clion("2025.1.1")
         bundledPlugins("com.intellij.clion", "PythonCore", "com.intellij.modules.json", "org.jetbrains.plugins.textmate")
         pluginVerifier()
         zipSigner()
@@ -38,8 +38,8 @@ intellijPlatform {
     version = scmVersion.version
     pluginConfiguration {
         ideaVersion {
-            sinceBuild = "243"
-            untilBuild = "251.*"
+            sinceBuild = "251.1"
+            untilBuild = "251.1.*"
         }
     }
 
@@ -55,13 +55,9 @@ intellijPlatform {
     }
 
     pluginVerification {
+        failureLevel = listOf(VerifyPluginTask.FailureLevel.COMPATIBILITY_PROBLEMS)
         ides {
-            select {
-                types = listOf(IntelliJPlatformType.CLion)
-                channels = listOf(ProductRelease.Channel.RELEASE)
-                sinceBuild = "243"
-                untilBuild = "251.*"
-            }
+            ide(IntelliJPlatformType.CLion, "2025.1.1")
         }
     }
 }
