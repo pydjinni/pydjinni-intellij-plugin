@@ -23,6 +23,7 @@
         <li>⚠️ Deprecation warnings</li>
         <li>ℹ️ Type documentation on hover</li>
         <li>⚙️ Configuration file validation</li>
+        <li>🤖 Type and language target completion</li>
     </ul>
   ]]></description>
 
