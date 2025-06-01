@@ -24,8 +24,12 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.EditorNotificationPanel
 import com.intellij.ui.EditorNotificationProvider
 import com.jetbrains.python.PyBundle
-import com.jetbrains.python.packaging.common.PythonSimplePackageSpecification
+import com.jetbrains.python.packaging.common.PythonRepositoryPackageSpecification
+import com.jetbrains.python.packaging.management.PythonPackageInstallRequest
 import com.jetbrains.python.packaging.management.PythonPackageManager
+import com.jetbrains.python.packaging.pyRequirementVersionSpec
+import com.jetbrains.python.packaging.repository.PyPIPackageRepository
+import com.jetbrains.python.packaging.requirement.PyRequirementRelation
 import com.jetbrains.python.sdk.PythonSdkUtil
 import kotlinx.coroutines.runBlocking
 import java.util.function.Function
@@ -58,11 +62,14 @@ class EditorNotificationProvider : EditorNotificationProvider {
                         runBackgroundableTask("Installing PyDjinni", project) {
                             runBlocking {
                                 PythonPackageManager.forSdk(project, sdk).installPackage(
-                                    PythonSimplePackageSpecification(
-                                        name = "pydjinni", version = null, repository = null
+                                    PythonPackageInstallRequest.ByRepositoryPythonPackageSpecifications(
+                                        listOf(PythonRepositoryPackageSpecification(
+                                            name = "pydjinni",
+                                            versionSpec = pyRequirementVersionSpec(PyRequirementRelation.GTE, "v1.0a7"),
+                                            repository = PyPIPackageRepository
+                                        ))
                                     ),
-                                    options = emptyList(),
-                                    withBackgroundProgress = true
+                                    options = emptyList()
                                 )
                             }
                         }

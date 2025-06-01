@@ -26,8 +26,9 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        clion("2025.1.1")
-        bundledPlugins("com.intellij.clion", "PythonCore", "com.intellij.modules.json", "org.jetbrains.plugins.textmate")
+        clion("252.18003.25")
+        bundledPlugins("com.intellij.clion", "com.intellij.modules.json", "org.jetbrains.plugins.textmate")
+        plugins("PythonCore:252.18003.27")
         pluginVerifier()
         zipSigner()
         testFramework(TestFrameworkType.Platform)
@@ -38,8 +39,8 @@ intellijPlatform {
     version = scmVersion.version
     pluginConfiguration {
         ideaVersion {
-            sinceBuild = "251.1"
-            untilBuild = "251.1.*"
+            sinceBuild = "252"
+            untilBuild = provider { null }
         }
     }
 
@@ -57,7 +58,7 @@ intellijPlatform {
     pluginVerification {
         failureLevel = listOf(VerifyPluginTask.FailureLevel.COMPATIBILITY_PROBLEMS)
         ides {
-            ide(IntelliJPlatformType.CLion, "2025.1.1")
+            ide(IntelliJPlatformType.CLion, "252.18003.25")
         }
     }
 }
