@@ -1,4 +1,6 @@
+import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+import org.jetbrains.intellij.platform.gradle.models.ProductRelease
 
 plugins {
     id("java")
@@ -11,7 +13,7 @@ group = "pro.jothe"
 version = scmVersion.version
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 repositories {
@@ -25,8 +27,7 @@ repositories {
 dependencies {
     intellijPlatform {
         clion("2025.1")
-        bundledPlugins("com.intellij.modules.json", "org.jetbrains.plugins.textmate")
-        plugins("PythonCore:251.23774.16")
+        bundledPlugins("com.intellij.clion", "PythonCore", "com.intellij.modules.json", "org.jetbrains.plugins.textmate")
         pluginVerifier()
         zipSigner()
         testFramework(TestFrameworkType.Platform)
@@ -37,8 +38,8 @@ intellijPlatform {
     version = scmVersion.version
     pluginConfiguration {
         ideaVersion {
-            sinceBuild = "251"
-            untilBuild = provider { null }
+            sinceBuild = "243"
+            untilBuild = "251.*"
         }
     }
 
@@ -55,7 +56,12 @@ intellijPlatform {
 
     pluginVerification {
         ides {
-            recommended()
+            select {
+                types = listOf(IntelliJPlatformType.CLion)
+                channels = listOf(ProductRelease.Channel.RELEASE)
+                sinceBuild = "243"
+                untilBuild = "251.*"
+            }
         }
     }
 }
