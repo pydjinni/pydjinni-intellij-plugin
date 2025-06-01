@@ -1,4 +1,6 @@
+import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+import org.jetbrains.intellij.platform.gradle.tasks.VerifyPluginTask
 
 plugins {
     id("java")
@@ -11,7 +13,7 @@ group = "pro.jothe"
 version = scmVersion.version
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 repositories {
@@ -24,9 +26,8 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        clion("2025.1")
-        bundledPlugins("com.intellij.modules.json", "org.jetbrains.plugins.textmate")
-        plugins("PythonCore:251.23774.16")
+        clion("2025.1.1")
+        bundledPlugins("com.intellij.clion", "PythonCore", "com.intellij.modules.json", "org.jetbrains.plugins.textmate")
         pluginVerifier()
         zipSigner()
         testFramework(TestFrameworkType.Platform)
@@ -37,8 +38,8 @@ intellijPlatform {
     version = scmVersion.version
     pluginConfiguration {
         ideaVersion {
-            sinceBuild = "251"
-            untilBuild = provider { null }
+            sinceBuild = "251.1"
+            untilBuild = "251.1.*"
         }
     }
 
@@ -54,8 +55,9 @@ intellijPlatform {
     }
 
     pluginVerification {
+        failureLevel = listOf(VerifyPluginTask.FailureLevel.COMPATIBILITY_PROBLEMS)
         ides {
-            recommended()
+            ide(IntelliJPlatformType.CLion, "2025.1.1")
         }
     }
 }

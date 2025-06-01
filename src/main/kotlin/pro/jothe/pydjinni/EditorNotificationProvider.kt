@@ -62,6 +62,7 @@ class EditorNotificationProvider : EditorNotificationProvider {
                                         name = "pydjinni", version = null, repository = null
                                     ),
                                     options = emptyList(),
+                                    withBackgroundProgress = true
                                 )
                             }
                         }
